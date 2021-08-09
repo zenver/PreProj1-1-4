@@ -17,7 +17,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
         //комадна создания таблицы
-        String sqlCommand = "CREATE TABLE users (id BIGINT NOT NULL AUTO_INCREMENT, name VARCHAR(45), lastName VARCHAR(45), age SMALLINT NOT NULL, PRIMARY KEY (id))";
+        String sqlCommand = "CREATE TABLE IF NOT EXISTS users (id BIGINT NOT NULL AUTO_INCREMENT, name VARCHAR(45), lastName VARCHAR(45), age SMALLINT NOT NULL, PRIMARY KEY (id))";
 
         //создание таблицы
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand)) { // создание объекта prepareStatement
@@ -30,7 +30,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try (Statement statement = connection.createStatement()) {
             //удаление таблицы
-            statement.execute("DROP TABLE users");
+            statement.execute("DROP TABLE IF EXISTS users");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,8 +57,9 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         try (Statement statement = connection.createStatement()) {
-            //удаление юзара по айди
+            //удаление юзера по айди
             statement.execute("DELETE FROM users WHERE id");
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -91,7 +92,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         try (Statement statement = connection.createStatement()) {
             //удаление таблицы
-            statement.execute("DELETE FROM users");
+            statement.execute("TRUNCATE users");
         } catch (SQLException e) {
             e.printStackTrace();
         }
