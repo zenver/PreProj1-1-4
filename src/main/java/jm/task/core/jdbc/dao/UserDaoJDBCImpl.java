@@ -17,13 +17,13 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
         //комадна создания таблицы
-        String sqlCommand = "CREATE TABLE IF NOT EXISTS users (id BIGINT NOT NULL AUTO_INCREMENT, name VARCHAR(45), lastName VARCHAR(45), age SMALLINT NOT NULL, PRIMARY KEY (id))";
+        String sqlCommand = "CREATE TABLE IF NOT EXISTS users (id BIGINT NOT NULL AUTO_INCREMENT, name VARCHAR(45), lastName VARCHAR(45), age TINYINT NOT NULL, PRIMARY KEY (id))";
 
         //создание таблицы
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand)) { // создание объекта prepareStatement
             preparedStatement.executeUpdate(sqlCommand);
         } catch (SQLException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
